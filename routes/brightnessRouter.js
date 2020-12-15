@@ -1,6 +1,6 @@
 import express from "express";
-const temperatureRouter = express.Router();
-temperatureRouter.get("/", (req, res) => {
+const brightnessRouter = express.Router();
+brightnessRouter.get("/", (req, res) => {
   //res.json(...)
 });
-export default bookRouter;
+export default brightnessRouter;
