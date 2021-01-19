@@ -1,20 +1,26 @@
 import express from "express";
 import mongoose from "mongoose";
+import bodyParser from "body-parser";
 
-import humidityRouter from "./routes/humidityRouter";
-import brightnessRouter from "./routes/brightnessRouter";
-import temperatureRouter from "./routes/temperatureRouter";
+import dataRouter from "./routes/dataRouter.js";
 
-const db = mongoose.connect(
-  "mongodb://User:IOT2020@iot.5sl3o.mongodb.net:27017/IOT"
-);
+mongoose.connect("mongodb+srv://User:IOT2020@iot.5sl3o.mongodb.net/IOT", {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+});
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", function () {
+  console.log("connected");
+});
 
 const app = express();
 const port = process.env.PORT || 4000;
 
-app.use("/api/humidity", humidityRouter);
-app.use("/api/brightness", brightnessRouter);
-app.use("/api/temperature", temperatureRouter);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use("/api/data", dataRouter);
 
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
