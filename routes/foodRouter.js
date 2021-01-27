@@ -6,9 +6,10 @@ const foodRouter = express.Router();
 
 foodRouter
   .get("/", (req, res) => {
-    Food.findOneAndDelete().exec((err, food) => {
-      res.json(!!food);
+    Food.find().count().exec((err, cpt) => {
+      res.json(cpt);
     });
+    Food.deleteMany().exec();
   })
   .post("/", (req, res) => {
     const food = new Food({
