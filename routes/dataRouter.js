@@ -54,11 +54,12 @@ dataRouter
   });
 
 const normalizeData = (data, min, max, {exclude, reverse} = {}) => {
-  if (data < min || (exclude && ( reverse ? data < min : data > max) ) ) {
+  if ((reverse ? data < min : data > max) || (exclude && ( reverse ? data < min : data > max) ) ) {
     return 0;
   } else if (reverse ? data < min : data > max) {
     return 1;
   }
+
   const value = (data - min) / (max - min);
 
   return reverse ? 1 - value : value;
