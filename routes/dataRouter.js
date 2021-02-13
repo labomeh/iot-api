@@ -53,7 +53,7 @@ dataRouter
     res.status(201).send(data);
   });
 
-const normalizeData = (data, min, max, {exclude = false, reverse = false}) => {
+const normalizeData = (data, min, max, {exclude, reverse} = {}) => {
   if (data < min || (exclude && ( reverse ? data < min : data > max) ) ) {
     return 0;
   } else if (reverse ? data < min : data > max) {
