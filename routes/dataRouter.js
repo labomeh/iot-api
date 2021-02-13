@@ -11,9 +11,9 @@ dataRouter
       .sort({ created_at: -1 })
       .exec((err, { humidity, temperature, lux }) => {
         const weatherData = {
-          fog: (normalizeData(temperature, 19, 22, true)) * normalizeData(humidity, 45, 70),
-          rain:  (1 - normalizeData(temperature, 16, 20, true)) * normalizeData(humidity, 35, 70),
-          snow: (1 - normalizeData(temperature, 13, 17)) * normalizeData(humidity, 30, 70),
+          fog: normalizeData(temperature, 19, 22, {exclude: true}) * normalizeData(humidity, 45, 70),
+          rain:  normalizeData(temperature, 16, 20, {exclude: true, reverse: true}) * normalizeData(humidity, 35, 70),
+          snow: normalizeData(temperature, 13, 17, {reverse: true}) * normalizeData(humidity, 30, 70),
           temperature: normalizeData(temperature, 10, 35),
           light: normalizeData(lux, 30, 110),
         };
@@ -53,14 +53,15 @@ dataRouter
     res.status(201).send(data);
   });
 
-const normalizeData = (data, min, max, exclude) => {
-  if (data < min || (exclude && data > max) ) {
+const normalizeData = (data, min, max, {exclude, reverse}) => {
+  if (data < min || (exclude && ( reverse ? data < min : data > max) ) ) {
     return 0;
-  } else if (data > max) {
+  } else if (reverse ? data < min : data > max) {
     return 1;
   }
+  const value = (data - min) / (max - min);
 
-  return (data - min) / (max - min);
+  return reverse ? 1 - value : value;
 };
 
 export default dataRouter;
