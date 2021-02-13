@@ -11,9 +11,9 @@ dataRouter
       .sort({ created_at: -1 })
       .exec((err, { humidity, temperature, lux }) => {
         const weatherData = {
-          fog: (normalizeData(temperature, 19, 22, true)) *normalizeData(humidity, 45, 70),
-          rain:  normalizeData(humidity, 30, 70),
-          snow: (1 - normalizeData(temperature, 15, 20)) * normalizeData(humidity, 30, 70),
+          fog: (normalizeData(temperature, 19, 22, true)) * normalizeData(humidity, 45, 70),
+          rain:  (1 - normalizeData(temperature, 16, 20, true)) * normalizeData(humidity, 35, 70),
+          snow: (1 - normalizeData(temperature, 10, 17)) * normalizeData(humidity, 30, 70),
           temperature: normalizeData(temperature, 10, 35),
           light: normalizeData(lux, 30, 110),
         };
