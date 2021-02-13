@@ -14,7 +14,7 @@ dataRouter
           fog: normalizeData(temperature, 19, 21, {exclude: true}) * normalizeData(humidity, 45, 80),
           rain:  normalizeData(temperature, 16, 20, {exclude: true, reverse: true}) * normalizeData(humidity, 35, 60),
           snow: normalizeData(temperature, 14, 17, {reverse: true}) * normalizeData(humidity, 30, 60),
-          temperature: normalizeData(temperature, 10, 35),
+          temperature: normalizeData(temperature, 15, 25),
           light: normalizeData(lux, 30, 110),
         };
 
